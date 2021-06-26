@@ -1,4 +1,4 @@
-# Homestead in Ubuntu Desktop 16.04 or Higher
+# Laravel Homestead in Ubuntu Desktop 16.04 or Higher
 
 Laravel strives to make the entire PHP development experience delightful, including your local development environment. Vagrant provides a simple, elegant way to manage and provision Virtual Machines.
 
@@ -58,6 +58,7 @@ echo "Homestead initialized!"
 The folders property of the Homestead.yaml file lists all of the folders you wish to share with your Homestead environment. As files within these folders are changed, they will be kept in sync between your local machine and the Homestead environment. You may configure as many shared folders as necessary:
 
 ```yaml
+name: homestead-<project>
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
@@ -69,12 +70,12 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/path/to/Projects/<project>
-      to: /path/to/Projects/<project>
+    - map: ~/path/to/project/<project>
+      to: /path/to/project/<project>
 
 sites:
-    - map: <project>.com
-      to: /path/to/Projects/<project>/public
+    - map: <project-domain>
+      to: /path/to/project/<project>/public
 
 databases:
     - homestead
@@ -97,7 +98,7 @@ databases:
 
 You must add the "domains" for your Nginx sites to the hosts file on your machine. The hosts file will redirect requests for your Homestead sites into your Homestead machine. On Linux, this file is located at /etc/hosts. The lines you add to this file will look like the following:
 ```
-192.168.10.10  <project>.com
+192.168.10.10  <project-domain>
 ```
 
 ### Launching The Vagrant Box
@@ -109,7 +110,7 @@ $ vagrant up
 
 Vagrant will boot the virtual machine and automatically configure your shared folders and Nginx sites.
 
-For more informaton about vagrant commands, please refer https://www.vagrantup.com/docs/index.html.
+For more informaton about vagrant commands, please refer [https://www.vagrantup.com/docs/index.html](https://www.vagrantup.com/docs/index.html).
 
 ### Stopping The Vagrant Box
 
@@ -121,16 +122,16 @@ $ vagrant halt
 
 ```console
 $ vagrant ssh
-$ cd /path/to/Projects
+$ cd /path/to/project
 ```
 
-#### Via Laravel Installer:
+#### Create via Laravel Installer:
 
 ```console
 $ laravel new <project>
 ```
 
-#### Via Composer Create-Project:
+#### Create via Composer:
 
 ```console
 $ composer create-project --prefer-dist laravel/laravel <project>
@@ -165,10 +166,10 @@ Enter Homestead via SSH
 $ vagrant ssh
 ```
 
-Copy `ca.homestead.homestead.crt` from laravel/homestead box into /path/to/Projects
+Copy `ca.homestead.homestead.crt` from laravel/homestead box into /path/to/project
 
 ```console
-$ sudo cp /etc/nginx/ssl/ca.homestead.homestead.crt /home/vagrant/path/to/Projects/<project>/ca.homestead.homestead.crt
+$ sudo cp /etc/nginx/ssl/ca.homestead.homestead.crt /home/vagrant/path/to/project/<project>/ca.homestead.homestead.crt
 ```
 
 Import `ca.homestead.homestead.crt` into browser (Mozilla, Chrome, Safari and etc.)
@@ -177,8 +178,8 @@ Edit Homestead.yaml
 ```
 ...
 sites:
-    - map: ~/path/to/Projects/<project>
-      to: /path/to/Projects/<project>
+    - map: ~/path/to/project/<project>
+      to: /path/to/project/<project>
       type: "ssl"
 ...
 ```
